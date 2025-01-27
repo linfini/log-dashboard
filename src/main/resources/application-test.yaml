@@ -1,0 +1,35 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/test
+    username: test
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    streams:
+      application-id: log-dashboard
+      properties:
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.key.value: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.timestamp.extractor: org.jayanat.dashboard.config.JournalLogTimestampExtractor
+        auto.offset.reset: latest
+        num.stream.threads: 8
+        session.timeout.ms: 30000
+        heartbeat.interval.ms: 10000
+    security:
+      protocol: SSL
+    ssl:
+      trust-store-certificates: /path/to/truststore.jks
+      trust-store-password: password
+      key-store-location: /path/to/keystore.jks
+      key-store-password: password
+      key-password: password
+app:
+  dashboard:
+    journal-log-topic: test_journal_log
